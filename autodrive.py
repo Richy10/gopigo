@@ -47,21 +47,35 @@ def print_menu():
     
     
     
-print_menu()
-print( "\nPlease drive safely")
+#print_menu()
+print("\n Turning on the systems");
+time.sleep(.2);
+print(".");
+time.sleep(.2);
+print(".");
+time.sleep(.2);
+print(".");
+print( "\nSystems Online ...");
+time.sleep(.2);
+print("Initializing Toretto.exe");
+
 #camera = PiCamera()
 #camera.rotation = 180
-sensor_pos = 90;
-rotation_var = 10;
-rotation_flag = 0;
-flag = 0;
-value_before_impact = 30;
-sleep_time = .1
-servo(90);
-set_left_speed(163)
-set_right_speed(123)
+sensor_pos = 90; #the position of the servo to point forward 
+rotation_var = 10; #Span 10 degrees at the time 
+rotation_flag = 0; #Did it rotate or did it do reverse?
+flag = 0;          #Value of how long it turned, to calculate how much to turn the wheels
+value_before_impact = 30; #How long before it stops when it detects a wall
+sleep_time = .1;    
+servo(90);  #Point the servo forward
+#set_left_speed(163)
+#set_right_speed(123)
 #fwd();
 while True:
+
+#change the speed according to your motor needs
+#to balance / make it go straight
+
 	set_left_speed(153)
 	set_right_speed(123)
 	#elif a=='u':
@@ -71,14 +85,14 @@ while True:
 		fwd();
 	
 	#print( '{}cm'.format(us_dist(15)))
-    
+    #main loops, scans 10 to the left, then 20 to the right, then 30 to the left ...
+    #if it doesnt find a clear path it goes back and turns to the left 
 	if us_dist(15) < value_before_impact:
 		
 		stop();
 		flag = sensor_pos+rotation_var;
 		time.sleep(sleep_time)
 		servo(flag);
-		
 		if us_dist(15) < value_before_impact:
 			flag = sensor_pos-rotation_var*2;
 			servo(flag);
@@ -133,10 +147,10 @@ while True:
 															
 															if us_dist(15) < value_before_impact:
 																bwd();
-																time.sleep(.5)
-																turn_left(180);
+																time.sleep(1.5)
+																turn_left(90);
 																rotation_flag = 1;
-																time.sleep(3)
+																time.sleep(1.5)
 		if rotation_flag == 0:
 			if flag > 91:
 				flag = flag - 90;
